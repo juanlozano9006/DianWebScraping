@@ -1,0 +1,18 @@
+# Ignorar entornos virtuales
+env/
+venv/
+
+# Ignorar archivos de Python compilados
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignorar archivos de configuración de VSCode
+.vscode/
+
+# Ignorar archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Si quieres ignorar solo el script, puedes dejarlo, pero normalmente no se ignoran scripts fuente
+# webScrapingDian/Dian/logicaSelenium/webScrapingDian.py

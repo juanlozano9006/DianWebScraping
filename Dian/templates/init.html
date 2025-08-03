@@ -1,0 +1,92 @@
+<!-- templates/scraping/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ejecutar Scraping</title>
+    {% comment %} <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> {% endcomment %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+    <div class="container mt-5 pt-5">
+        {% comment %} <h1>Ejecutar Scraping</h1> {% endcomment %}
+        <p>Por favor, ingresa los datos necesarios para ejecutar el scraping.</p>
+        <form id="scrapingForm">
+            <div class="row mb-3">
+                <div class="col">
+                    <label class="form-label">Fecha inicial:</label>
+                    <input class="form-control" type="date" name="fechainicial" required>
+                </div>
+                <div class="col">
+                    <label class="form-label">Fecha final:</label>
+                    <input class="form-control" type="date" name="fechafinal" required>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Token:</label>
+                <input class="form-control" type="text" name="token" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Correo destino:</label>
+                <input class="form-control" type="email" name="correo" required>
+            </div>
+            <button class="btn btn-success" type="submit">Ejecutar</button>
+        </form>
+
+
+        <div class="modal fade" id="modalEjecucion" tabindex="-1" aria-labelledby="modalEjecucionLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div id="spinnerDiv">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Ejecutando...</span>
+                    </div>
+                    <p class="mt-3" id="modalMensaje">Ejecutando scraping, por favor espera...</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div id="resultado"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('scrapingForm').onsubmit = function(e) {
+            e.preventDefault();
+            // Mostrar el modal
+            var modal = new bootstrap.Modal(document.getElementById('modalEjecucion'));
+            document.getElementById('modalMensaje').innerText = "Ejecutando scraping, por favor espera...";
+            modal.show();
+
+            const data = {
+                fechainicial: this.fechainicial.value,
+                fechafinal: this.fechafinal.value,
+                token: this.token.value,
+                correo: this.correo.value
+            };
+            fetch('/scraping/ejecutar-scraping/', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'ok') {
+                    document.getElementById('modalMensaje').innerText = "Scraping iniciado correctamente. Recibirás un correo cuando termine.";
+                } else {
+                    document.getElementById('modalMensaje').innerText = "Error: " + (data.error || "Error desconocido");
+                }
+                setTimeout(() => { modal.hide(); }, 2000);
+            })
+            .catch(err => {
+                document.getElementById('modalMensaje').innerText = "Error: " + err;
+                setTimeout(() => { modal.hide(); }, 2000);
+            });
+        }
+    });
+    </script>
+</body>
+</html>
