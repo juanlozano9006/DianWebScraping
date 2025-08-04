@@ -16,3 +16,22 @@ Thumbs.db
 
 # Si quieres ignorar solo el script, puedes dejarlo, pero normalmente no se ignoran scripts fuente
 # webScrapingDian/Dian/logicaSelenium/webScrapingDian.py
+
+
+git clone https://github.com/juanlozano9006/DianWebScraping.git
+cd TU_PROYECTO
+
+python3 -m venv venv
+source venv/bin/activate
+
+pip install -r requirements.txt
+# O instala manualmente:
+pip install selenium pandas psycopg2-binary boto3 requests
+
+
+
+self.options.add_argument('--headless=new')
+
+python Dian/logicaSelenium/webScrapingDian.py
+
+ssh-keygen -t ed25519 -C "juan_klozano@hotmail.com"

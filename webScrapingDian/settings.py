@@ -25,7 +25,11 @@ SECRET_KEY = 'django-insecure-y)wwd6m-6(du-x&ee9m!&!0(x^krsudpm7dlav+nl26jry97me
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'conciliacionfacturas.rioclarosolution.com',
+    'localhost',
+    '127.0.0.1'
+]
 
 
 # Application definition
